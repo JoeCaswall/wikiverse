@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PagesList } from "./PagesList";
 import Details from "./Details";
+import AddPage from "./AddPage";
 
 // import and prepend the api url to any fetch calls
 import apiURL from "../api";
@@ -8,8 +9,10 @@ import apiURL from "../api";
 export const App = () => {
   const [pages, setPages] = useState([]);
   const [singlePage, setSinglePage] = useState({});
-  const [user, setUser] = useState("");
+
   const [isSinglePage, setIsSinglePage] = useState(false);
+  const [isAddPage, setIsAddPage] = useState(false);
+  const [user, setUser] = useState("");
 
   async function fetchPages() {
     try {
@@ -43,14 +46,6 @@ export const App = () => {
     }
   }
 
-  async function getPageTags(slug) {
-    try {
-      const res = await fetch(`${apiURL}/wiki/${slug}`);
-    } catch (err) {
-      console.log("Oh no, an error!", err);
-    }
-  }
-
   useEffect(() => {
     fetchPages();
   }, []);
@@ -58,7 +53,9 @@ export const App = () => {
   return (
     <main>
       <h1>WikiVerse</h1>
-      {isSinglePage ? (
+      {isAddPage ? (
+        <AddPage setIsAddPage={setIsAddPage} />
+      ) : isSinglePage ? (
         <Details
           singlePage={singlePage}
           getAuthorFromTitle={getAuthorFromTitle}
@@ -68,7 +65,11 @@ export const App = () => {
       ) : (
         <>
           <h2>An interesting 📚</h2>
-          <PagesList fetchSinglePage={fetchSinglePage} pages={pages} />
+          <PagesList
+            fetchSinglePage={fetchSinglePage}
+            pages={pages}
+            setIsAddPage={setIsAddPage}
+          />
         </>
       )}
     </main>
