@@ -43,6 +43,7 @@ const AddPage = ({ setIsAddPage, setUser, user, fetchPages }) => {
             placeholder="Title"
             value={title}
             name="title"
+            required
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -54,6 +55,7 @@ const AddPage = ({ setIsAddPage, setUser, user, fetchPages }) => {
             placeholder="Article Content"
             name="content"
             value={content}
+            required
             onChange={(e) => setContent(e.target.value)}
           ></input>
         </div>
@@ -63,6 +65,7 @@ const AddPage = ({ setIsAddPage, setUser, user, fetchPages }) => {
             placeholder="Author Name"
             name="user"
             value={user}
+            required
             onChange={(e) => {
               setUser(e.target.value);
               //   console.log(user);
@@ -75,6 +78,7 @@ const AddPage = ({ setIsAddPage, setUser, user, fetchPages }) => {
             placeholder="Author Email"
             name="email"
             value={email}
+            required
             onChange={(e) => setEmail(e.target.value)}
           ></input>
         </div>
@@ -84,6 +88,7 @@ const AddPage = ({ setIsAddPage, setUser, user, fetchPages }) => {
             placeholder="Tags"
             name="tags"
             value={tags}
+            required
             onChange={(e) => setTags(e.target.value)}
           ></input>
         </div>

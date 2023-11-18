@@ -65,7 +65,7 @@ export const App = () => {
 
   return (
     <main>
-      <h1>WikiVerse</h1>
+      <h1 id="title">WikiVerse</h1>
       {isAddPage ? (
         <AddPage
           setIsAddPage={setIsAddPage}
@@ -85,7 +85,7 @@ export const App = () => {
       ) : (
         <>
           <h2>An interesting 📚</h2>
-          <h3>Click articles to read and see details:</h3>
+          <h3 id="info">Click articles to read and see details:</h3>
           <PagesList
             fetchSinglePage={fetchSinglePage}
             pages={pages}
