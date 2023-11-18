@@ -46,6 +46,19 @@ export const App = () => {
     }
   }
 
+  async function deletePage(slug) {
+    try {
+      const res = await fetch(`${apiURL}/wiki/${slug}`, {
+        method: "DELETE",
+      });
+      const data = res.json();
+      setIsSinglePage(false);
+      fetchPages();
+    } catch (err) {
+      console.log("Oh no an error!", err);
+    }
+  }
+
   useEffect(() => {
     fetchPages();
   }, []);
@@ -54,17 +67,25 @@ export const App = () => {
     <main>
       <h1>WikiVerse</h1>
       {isAddPage ? (
-        <AddPage setIsAddPage={setIsAddPage} />
+        <AddPage
+          setIsAddPage={setIsAddPage}
+          setUser={setUser}
+          user={user}
+          fetchPages={fetchPages}
+        />
       ) : isSinglePage ? (
         <Details
           singlePage={singlePage}
           getAuthorFromTitle={getAuthorFromTitle}
           user={user}
           setIsSinglePage={setIsSinglePage}
+          deletePage={deletePage}
+          setUser={setUser}
         />
       ) : (
         <>
           <h2>An interesting 📚</h2>
+          <h3>Click articles to read and see details:</h3>
           <PagesList
             fetchSinglePage={fetchSinglePage}
             pages={pages}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import apiURL from "../api";
 
-const AddPage = ({ setIsAddPage, setUser }) => {
+const AddPage = ({ setIsAddPage, setUser, user, fetchPages }) => {
   const [email, setEmail] = useState("");
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -9,10 +10,10 @@ const AddPage = ({ setIsAddPage, setUser }) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await fetch(`${apiURL}/wiki/`, {
+    let page = await fetch(`${apiURL}/wiki/`, {
       method: "POST",
       body: JSON.stringify({
-        user: author,
+        name: user,
         email: email,
         title: title,
         content: content,
@@ -22,11 +23,14 @@ const AddPage = ({ setIsAddPage, setUser }) => {
         "Content-Type": "application/json",
       },
     });
+    console.log(page);
     setUser("");
     setEmail("");
     setTitle("");
     setContent("");
     setTags("");
+    setIsAddPage(false);
+    fetchPages();
   }
 
   return (
@@ -37,6 +41,7 @@ const AddPage = ({ setIsAddPage, setUser }) => {
           <input
             type="text"
             placeholder="Title"
+            value={title}
             name="title"
             onChange={(e) => {
               setTitle(e.target.value);
@@ -48,6 +53,7 @@ const AddPage = ({ setIsAddPage, setUser }) => {
             type="text"
             placeholder="Article Content"
             name="content"
+            value={content}
             onChange={(e) => setContent(e.target.value)}
           ></input>
         </div>
@@ -55,8 +61,12 @@ const AddPage = ({ setIsAddPage, setUser }) => {
           <input
             type="text"
             placeholder="Author Name"
-            name="author"
-            onChange={(e) => setAuthor(e.target.value)}
+            name="user"
+            value={user}
+            onChange={(e) => {
+              setUser(e.target.value);
+              //   console.log(user);
+            }}
           ></input>
         </div>
         <div>
@@ -64,6 +74,7 @@ const AddPage = ({ setIsAddPage, setUser }) => {
             type="email"
             placeholder="Author Email"
             name="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></input>
         </div>
@@ -72,12 +83,18 @@ const AddPage = ({ setIsAddPage, setUser }) => {
             type="text"
             placeholder="Tags"
             name="tags"
+            value={tags}
             onChange={(e) => setTags(e.target.value)}
           ></input>
         </div>
-        <button type="submit" onClick={() => setIsAddPage(false)}>
-          Create Page
-        </button>
+        <div>
+          <button type="submit" className="button">
+            Create Page
+          </button>
+          <button onClick={() => setIsAddPage(false)} className="button">
+            Back to Wiki
+          </button>
+        </div>
       </form>
     </>
   );

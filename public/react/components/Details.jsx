@@ -1,6 +1,13 @@
 import React from "react";
 
-const Details = ({ singlePage, getAuthorFromTitle, user, setIsSinglePage }) => {
+const Details = ({
+  singlePage,
+  getAuthorFromTitle,
+  user,
+  setIsSinglePage,
+  deletePage,
+  setUser,
+}) => {
   getAuthorFromTitle(singlePage.authorId);
   const createdAt = singlePage.createdAt;
   const date = createdAt.slice(0, createdAt.indexOf("T"));
@@ -9,6 +16,11 @@ const Details = ({ singlePage, getAuthorFromTitle, user, setIsSinglePage }) => {
   const published = rightOrder.join("-");
 
   const tags = singlePage.tags;
+
+  function backHandler() {
+    setUser("");
+    setIsSinglePage(false);
+  }
 
   return (
     <>
@@ -29,7 +41,12 @@ const Details = ({ singlePage, getAuthorFromTitle, user, setIsSinglePage }) => {
           <p>#{tag.name}</p>
         ))}
       </div>
-      <button onClick={() => setIsSinglePage(false)}>Back to Wiki</button>
+      <button onClick={() => backHandler()} className="button">
+        Back to Wiki
+      </button>
+      <button onClick={() => deletePage(singlePage.slug)} className="button">
+        Delete Page
+      </button>
     </>
   );
 };
